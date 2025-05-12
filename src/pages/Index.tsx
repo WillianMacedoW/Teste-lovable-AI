@@ -212,37 +212,6 @@ const Index: React.FC = () => {
           </div>
         </section>
         
-        {/* Featured Barber Shops */}
-        <section className="py-16 bg-gray-50">
-          <div className="barber-container">
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-10">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-2">
-                  Barbearias em Destaque
-                </h2>
-                <p className="text-lg text-gray-600">
-                  Conheça algumas das melhores barbearias cadastradas em nossa plataforma
-                </p>
-              </div>
-              <Link 
-                to="/search" 
-                className="mt-4 md:mt-0 text-barber-black font-semibold hover:text-barber-yellow transition"
-              >
-                Ver todas →
-              </Link>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {BARBER_SHOPS.map((shop) => (
-                <BarberCard
-                  key={shop.id}
-                  {...shop}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-        
         {/* Pricing */}
         <section className="py-16 bg-white">
           <div className="barber-container">
