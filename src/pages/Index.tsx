@@ -45,8 +45,8 @@ const BARBER_SHOPS = [
 // Pricing plans
 const PRICING_PLANS = [
   {
-    name: 'Gratuito',
-    price: '0',
+    name: 'Simples',
+    price: '12,99',
     description: 'Para barbearias que estão começando',
     features: [
       '1 barbeiro',
