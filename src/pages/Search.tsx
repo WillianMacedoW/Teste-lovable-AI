@@ -7,69 +7,75 @@ import { Search as SearchIcon } from 'lucide-react';
 
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { BarberCard } from '@/components/shop/BarberCard';
+import BarberCard from '@/components/shop/BarberCard';
 
 // Mock data for barber shops
 const BARBER_SHOPS = [
   {
-    id: 1,
+    id: "1",
     name: "Barbearia Vintage",
     rating: 4.9,
     reviewCount: 124,
     image: "/placeholder.svg",
     location: "São Paulo, SP",
     services: ["Corte", "Barba", "Tratamento"],
-    price: "$$"
+    price: "$$",
+    address: "São Paulo, SP"
   },
   {
-    id: 2,
+    id: "2",
     name: "Corte & Estilo",
     rating: 4.7,
     reviewCount: 98,
     image: "/placeholder.svg",
     location: "Rio de Janeiro, RJ",
     services: ["Corte", "Barba", "Coloração"],
-    price: "$$"
+    price: "$$",
+    address: "Rio de Janeiro, RJ"
   },
   {
-    id: 3,
+    id: "3",
     name: "Barber Club",
     rating: 4.8,
     reviewCount: 156,
     image: "/placeholder.svg",
     location: "Belo Horizonte, MG",
     services: ["Corte", "Barba", "Spa"],
-    price: "$$$"
+    price: "$$$",
+    address: "Belo Horizonte, MG"
   },
   {
-    id: 4,
+    id: "4",
     name: "Barbearia Moderna",
     rating: 4.6,
     reviewCount: 87,
     image: "/placeholder.svg",
     location: "Curitiba, PR",
     services: ["Corte", "Barba"],
-    price: "$"
+    price: "$",
+    address: "Curitiba, PR"
   },
   {
-    id: 5,
+    id: "5",
     name: "Barba & Navalha",
     rating: 4.9,
     reviewCount: 112,
     image: "/placeholder.svg",
     location: "Brasília, DF",
     services: ["Corte", "Barba", "Massagem"],
-    price: "$$"
+    price: "$$",
+    address: "Brasília, DF"
   },
   {
-    id: 6,
+    id: "6",
     name: "Espaço VIP",
     rating: 5.0,
     reviewCount: 78,
     image: "/placeholder.svg",
     location: "Porto Alegre, RS",
     services: ["Corte", "Barba", "Premium"],
-    price: "$$$"
+    price: "$$$",
+    address: "Porto Alegre, RS"
   }
 ];
 
@@ -96,7 +102,7 @@ const Search = () => {
       <Navbar />
       
       <main className="flex-grow py-8 bg-gray-50">
-        <div className="barber-container">
+        <div className="container mx-auto px-4">
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2">Encontre Barbearias</h1>
             <p className="text-gray-600">
@@ -127,7 +133,13 @@ const Search = () => {
               filteredShops.map((shop) => (
                 <BarberCard
                   key={shop.id}
-                  {...shop}
+                  id={shop.id}
+                  name={shop.name}
+                  image={shop.image}
+                  address={shop.address}
+                  rating={shop.rating}
+                  totalReviews={shop.reviewCount}
+                  services={shop.services}
                 />
               ))
             ) : (
