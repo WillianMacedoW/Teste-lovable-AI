@@ -2,8 +2,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { MenuIcon, UserIcon, XIcon } from 'lucide-react';
+import { MenuIcon, UserIcon, XIcon, LogOut } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface NavbarProps {
   onOpenAuthModal?: () => void;
@@ -12,9 +22,27 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ onOpenAuthModal }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    // If we're on the dashboard, redirect to home
+    if (window.location.pathname === '/dashboard') {
+      window.location.href = '/';
+    }
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
   };
 
   return (
@@ -46,14 +74,45 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenAuthModal }) => {
             <Link to="/booking" className="hover:text-barber-yellow transition">Agendar</Link>
             <Link to="/about" className="hover:text-barber-yellow transition">Sobre</Link>
             <Link to="/contact" className="hover:text-barber-yellow transition">Contato</Link>
-            <Button 
-              variant="outline" 
-              className="ml-4 border-barber-yellow text-barber-yellow hover:bg-barber-yellow hover:text-barber-black"
-              onClick={onOpenAuthModal}
-            >
-              <UserIcon size={18} className="mr-2" />
-              Login
-            </Button>
+            
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative ml-4 flex items-center gap-2 text-white hover:bg-barber-black/80">
+                    <Avatar className="h-8 w-8 bg-barber-yellow text-barber-black">
+                      <AvatarFallback>{user?.name ? getInitials(user.name) : "U"}</AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium">
+                      {user?.name ? (user.name.split(' ')[0]) : "Usuário"}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="cursor-pointer">Dashboard</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/booking" className="cursor-pointer">Meus Agendamentos</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sair</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button 
+                variant="outline" 
+                className="ml-4 border-barber-yellow text-barber-yellow hover:bg-barber-yellow hover:text-barber-black"
+                onClick={onOpenAuthModal}
+              >
+                <UserIcon size={18} className="mr-2" />
+                Login
+              </Button>
+            )}
           </nav>
         )}
       </div>
@@ -97,17 +156,49 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenAuthModal }) => {
             >
               Contato
             </Link>
-            <Button 
-              variant="outline" 
-              className="mt-4 border-barber-yellow text-barber-yellow hover:bg-barber-yellow hover:text-barber-black"
-              onClick={() => {
-                if(onOpenAuthModal) onOpenAuthModal();
-                setIsMenuOpen(false);
-              }}
-            >
-              <UserIcon size={18} className="mr-2" />
-              Login / Cadastro
-            </Button>
+            
+            {isAuthenticated ? (
+              <>
+                <div className="flex items-center gap-2 border-b border-gray-800 py-2">
+                  <Avatar className="h-8 w-8 bg-barber-yellow text-barber-black">
+                    <AvatarFallback>{user?.name ? getInitials(user.name) : "U"}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium">
+                    {user?.name || "Usuário"}
+                  </span>
+                </div>
+                <Link 
+                  to="/dashboard" 
+                  className="text-xl py-2 border-b border-gray-800 hover:text-barber-yellow transition"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <Button 
+                  variant="outline" 
+                  className="mt-4 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <LogOut size={18} className="mr-2" />
+                  Sair
+                </Button>
+              </>
+            ) : (
+              <Button 
+                variant="outline" 
+                className="mt-4 border-barber-yellow text-barber-yellow hover:bg-barber-yellow hover:text-barber-black"
+                onClick={() => {
+                  if(onOpenAuthModal) onOpenAuthModal();
+                  setIsMenuOpen(false);
+                }}
+              >
+                <UserIcon size={18} className="mr-2" />
+                Login / Cadastro
+              </Button>
+            )}
           </nav>
         </div>
       )}

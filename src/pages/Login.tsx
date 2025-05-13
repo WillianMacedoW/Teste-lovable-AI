@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,12 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Login: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
   const [isBarberShop, setIsBarberShop] = useState<boolean>(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { login } = useAuth();
   
   // Form state
   const [email, setEmail] = useState('');
@@ -29,18 +30,37 @@ const Login: React.FC = () => {
       setLoading(false);
       
       if (activeTab === 'login') {
-        // Mock login success
+        // Mock login success - using email as name if no name is provided
+        const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ');
+        const userData = {
+          name: name || userName.charAt(0).toUpperCase() + userName.slice(1),
+          email: email,
+        };
+        
+        login(userData);
+        
         toast({
           title: "Login realizado com sucesso",
           description: "Bem-vindo de volta ao BarberTime!",
         });
+        
         navigate('/dashboard');
       } else {
         // Mock registration success
+        const userData = {
+          name,
+          email,
+          isBarberShop,
+          ...(isBarberShop && { shopName }),
+        };
+        
+        login(userData);
+        
         toast({
           title: "Registro realizado com sucesso",
           description: "Sua conta foi criada com sucesso!",
         });
+        
         navigate('/dashboard');
       }
     }, 1000);

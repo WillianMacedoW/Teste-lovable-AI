@@ -11,6 +11,8 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -21,6 +23,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
   const [isBarberShop, setIsBarberShop] = useState<boolean>(false);
   const { toast } = useToast();
+  const { login } = useAuth();
+  const navigate = useNavigate();
   
   // Form state
   const [email, setEmail] = useState('');
@@ -38,13 +42,30 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       setLoading(false);
       
       if (activeTab === 'login') {
-        // Mock login success
+        // Mock login success - using email as name if no name is provided
+        const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ');
+        const userData = {
+          name: name || userName.charAt(0).toUpperCase() + userName.slice(1),
+          email: email,
+        };
+        
+        login(userData);
+        
         toast({
           title: "Login realizado com sucesso",
           description: "Bem-vindo de volta ao BarberTime!",
         });
       } else {
         // Mock registration success
+        const userData = {
+          name,
+          email,
+          isBarberShop,
+          ...(isBarberShop && { shopName }),
+        };
+        
+        login(userData);
+        
         toast({
           title: "Registro realizado com sucesso",
           description: "Sua conta foi criada com sucesso!",
@@ -52,6 +73,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       }
       
       onClose();
+      navigate('/dashboard');
     }, 1000);
   };
   
