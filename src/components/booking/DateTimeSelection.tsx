@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import BookingCalendar from './BookingCalendar';
 
 interface DateTimeSelectionProps {
@@ -14,6 +14,7 @@ const DateTimeSelection: React.FC<DateTimeSelectionProps> = ({
   barberId
 }) => {
   const handleDateTimeSelect = (date: Date, time: string) => {
+    console.log('Date and time selected:', { date, time });
     onSelect({ date, time });
   };
 

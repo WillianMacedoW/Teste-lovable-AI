@@ -1,7 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ServiceSelection from './ServiceSelection';
 import BarberSelection from './BarberSelection';
 import DateTimeSelection from './DateTimeSelection';
@@ -26,10 +27,21 @@ const BookingPages: React.FC<BookingPagesProps> = ({
     barber: null,
     dateTime: null,
   });
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Set initial step based on URL
+  useEffect(() => {
+    if (location.pathname === '/booking/create') {
+      setCurrentStep('service');
+    }
+  }, [location.pathname]);
   
   const handleServiceSelect = (service: any) => {
     setBookingData({ ...bookingData, service });
     setCurrentStep('barber');
+    navigate('/booking/create', { replace: true });
   };
   
   const handleBarberSelect = (barber: any) => {
