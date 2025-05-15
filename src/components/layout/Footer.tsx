@@ -1,15 +1,17 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Scissors } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-barber-black text-white pt-12 pb-6">
       <div className="barber-container">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Column 1 - Logo and Tagline */}
           <div>
             <Link to="/" className="flex items-center mb-4">
+              <Scissors size={24} className="text-barber-yellow mr-2" />
               <div className="font-montserrat font-bold text-2xl">
                 Barber<span className="text-barber-yellow">Time</span>
               </div>
@@ -18,40 +20,31 @@ const Footer: React.FC = () => {
               Plataforma de agendamento online para barbearias modernas
             </p>
             <div className="flex space-x-4">
-              {/* Social Icons would go here */}
+              {/* Social Icons placeholder */}
+              <div className="p-4 border border-dashed border-gray-600 rounded-md text-center w-full">
+                <p className="text-gray-500 text-sm">Espaço para redes sociais</p>
+              </div>
             </div>
           </div>
 
-          {/* Column 2 - Links */}
+          {/* Column 2 - Main Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-barber-yellow">Empresa</h3>
+            <h3 className="text-lg font-semibold mb-4 text-barber-yellow">Links Principais</h3>
             <ul className="space-y-2">
-              <li><Link to="/about" className="text-gray-400 hover:text-barber-yellow transition">Sobre</Link></li>
+              <li><Link to="/" className="text-gray-400 hover:text-barber-yellow transition">Home</Link></li>
               <li><Link to="/pricing" className="text-gray-400 hover:text-barber-yellow transition">Preços</Link></li>
-              <li><Link to="/careers" className="text-gray-400 hover:text-barber-yellow transition">Carreiras</Link></li>
+              <li><Link to="/booking/create" className="text-gray-400 hover:text-barber-yellow transition">Agendar</Link></li>
+              <li><Link to="/about" className="text-gray-400 hover:text-barber-yellow transition">Sobre</Link></li>
               <li><Link to="/contact" className="text-gray-400 hover:text-barber-yellow transition">Contato</Link></li>
             </ul>
           </div>
 
-          {/* Column 3 - Resources */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-barber-yellow">Recursos</h3>
-            <ul className="space-y-2">
-              <li><Link to="/blog" className="text-gray-400 hover:text-barber-yellow transition">Blog</Link></li>
-              <li><Link to="/help" className="text-gray-400 hover:text-barber-yellow transition">Centro de Ajuda</Link></li>
-              <li><Link to="/tutorials" className="text-gray-400 hover:text-barber-yellow transition">Tutoriais</Link></li>
-              <li><Link to="/api" className="text-gray-400 hover:text-barber-yellow transition">API</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 4 - Legal */}
+          {/* Column 3 - Legal */}
           <div>
             <h3 className="text-lg font-semibold mb-4 text-barber-yellow">Legal</h3>
             <ul className="space-y-2">
               <li><Link to="/privacy" className="text-gray-400 hover:text-barber-yellow transition">Política de Privacidade</Link></li>
               <li><Link to="/terms" className="text-gray-400 hover:text-barber-yellow transition">Termos de Uso</Link></li>
-              <li><Link to="/gdpr" className="text-gray-400 hover:text-barber-yellow transition">LGPD</Link></li>
-              <li><Link to="/cookies" className="text-gray-400 hover:text-barber-yellow transition">Política de Cookies</Link></li>
             </ul>
           </div>
         </div>

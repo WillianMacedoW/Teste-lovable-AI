@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { MenuIcon, UserIcon, XIcon, LogOut } from 'lucide-react';
+import { MenuIcon, UserIcon, XIcon, LogOut, Scissors } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -48,8 +47,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenAuthModal }) => {
   return (
     <header className="bg-barber-black text-white py-4 sticky top-0 z-50 shadow-md">
       <div className="barber-container flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo with Scissors Icon */}
         <Link to="/" className="flex items-center">
+          <Scissors size={24} className="text-barber-yellow mr-2" />
           <div className="font-montserrat font-bold text-2xl">
             Barber<span className="text-barber-yellow">Time</span>
           </div>
